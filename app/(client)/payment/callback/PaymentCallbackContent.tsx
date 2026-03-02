@@ -49,19 +49,36 @@ export default function PaymentCallbackContent() {
       isProcessingRef.current = true;
 
       try {
+        console.log("🔍 Verificando pago con ID:", id);
+        
         const response = await fetch(`/api/verify-payment?id=${id}`);
         const data = await response.json();
+
+        console.log("📄 Respuesta completa de verify-payment:", data);
 
         if (data.status === "APPROVED") {
           const pendingOrderRaw = localStorage.getItem("pendingOrder");
 
           if (!pendingOrderRaw) {
+            console.warn("⚠️ No hay pendingOrder en localStorage");
             setStatus("success");
             setMessage("¡Tu pago fue procesado exitosamente!");
             return;
           }
 
           const pendingOrder = JSON.parse(pendingOrderRaw);
+          console.log("💾 Datos de pendingOrder:", pendingOrder);
+
+          // 🔥 VERIFICAR QUE data.data EXISTE
+          if (!data.data) {
+            console.error("❌ data.data es undefined!");
+            console.log("Estructura recibida:", Object.keys(data));
+            setStatus("error");
+            setMessage("Error: Datos de pago incompletos");
+            return;
+          }
+
+          console.log("📦 Enviando a save-order...");
 
           const saveResponse = await fetch("/api/save-order", {
             method: "POST",
@@ -69,7 +86,7 @@ export default function PaymentCallbackContent() {
             body: JSON.stringify({
               transactionId: id,
               reference: ref || data.data?.reference,
-              paymentData: data.data,
+              paymentData: data.data, // ← Aquí debe llegar correctamente
               userId: user?.id || null,
               shipping: pendingOrder.shipping,
               items: pendingOrder.items,
@@ -78,6 +95,7 @@ export default function PaymentCallbackContent() {
           });
 
           const saveResult = await saveResponse.json();
+          console.log("💾 Resultado de save-order:", saveResult);
 
           if (saveResult.success || saveResult.message?.includes("ya procesada")) {
             localStorage.setItem(processedKey, "true");
@@ -95,7 +113,8 @@ export default function PaymentCallbackContent() {
               icon: "🎉",
             });
           } else {
-            throw new Error(saveResult.message || "Error al guardar la orden");
+            console.error("❌ Error en save-order:", saveResult);
+            throw new Error(saveResult.error || "Error al guardar la orden");
           }
 
         } else if (data.status === "PENDING") {
@@ -105,8 +124,8 @@ export default function PaymentCallbackContent() {
           setStatus("error");
           setMessage(data.message || "El pago no pudo ser procesado");
         }
-      } catch (error) {
-        console.error("❌ Error:", error);
+      } catch (error: any) {
+        console.error("❌ Error completo:", error);
         setStatus("error");
         setMessage("Hubo un problema al confirmar tu pedido.");
       } finally {
