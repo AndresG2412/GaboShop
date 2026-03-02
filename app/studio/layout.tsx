@@ -5,7 +5,7 @@ import { SignOutButton } from '@clerk/nextjs';
 import HeaderAdmin from '../components/admin/HeaderAdmin';
 
 // Lista de emails admin
-const ADMIN_EMAILS = ['cgaviria930@gmail.com'];
+const ADMIN_EMAILS = ['cgaviria930@gmail.com', 'hincapiestefania110@gmail.com'];
 
 export default async function StudioLayout({
   children,
