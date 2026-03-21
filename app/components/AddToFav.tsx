@@ -32,7 +32,7 @@ const AddToFav = ({ product, iconOnly = false }: Props) => {
     try {
       // supply user id to ensure the remote update happens even if store.userId
       // hasn't been populated yet by AuthSync
-      await addToFavorite(product, user?.id);
+      await addToFavorite(product);
       if (isInFavorites) {
         toast.success('Eliminado de Favoritos', {
           position: "top-center",
