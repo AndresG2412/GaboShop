@@ -74,7 +74,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             className="w-full py-2 px-3 bg-eshop-buttonBase hover:bg-eshop-buttonHover text-eshop-textDark rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hoverEffect shadow-sm"
           >
             <Eye className="w-4 h-4" />
-            Ver producto
+            Observar
           </Link>
         ) : (
           <AddToCar product={product} />

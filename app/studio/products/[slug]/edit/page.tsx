@@ -34,7 +34,6 @@ export default async function EditProductPage({ params }: Props) {
     precio: productData.precio,
     imagenes: productData.imagenes,
     descripcion: productData.descripcion,
-    variante: productData.variante,
     categorias: productData.categorias,
     stock: productData.stock,
     subido: productData.subido?.toDate() || new Date(),

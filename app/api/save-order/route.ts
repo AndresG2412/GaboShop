@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
             <div class="container">
               <div class="header">
                 <h1>🎉 Nuevo Pedido Recibido</h1>
-                <p style="margin: 10px 0 0 0; opacity: 0.9;">GaboShop</p>
+                <p style="margin: 10px 0 0 0; opacity: 0.9;">FashionJAS</p>
               </div>
 
               <div class="content">
@@ -236,7 +236,7 @@ export async function POST(request: NextRequest) {
       `;
 
       await resend.emails.send({
-        from: "GaboShop <onboarding@resend.dev>",
+        from: "FashionJAS <onboarding@resend.dev>",
         to: adminEmails, // ✅ array de correos
         subject: `🎉 Nuevo Pedido #${orderData.reference} - $${orderData.total.toLocaleString("es-CO")} COP`,
         html: emailHtml,
@@ -251,7 +251,7 @@ export async function POST(request: NextRequest) {
     // 🔥 PASO 5B: EMAIL AL CLIENTE
     if (orderData.customer.email) {
       await resend.emails.send({
-        from: "GaboShop <onboarding@resend.dev>",
+        from: "FashionJAS <onboarding@resend.dev>",
         to: orderData.customer.email,
         subject: `✅ Confirmación de tu pedido #${orderData.reference}`,
         html: `

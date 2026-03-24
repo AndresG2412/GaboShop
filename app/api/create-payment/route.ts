@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     // ═══════════════════════════════════════════════
     const wompiBody = {
       name: `Pedido #${reference}`,
-      description: `Compra en Tiendanna - ${items.length} producto(s)`,
+      description: `Compra en FashionJAS - ${items.length} producto(s)`,
       single_use: true,
       collect_shipping: false,
       currency: "COP",
